@@ -5,8 +5,10 @@ import { Typography, useTheme } from "@material-ui/core";
 import ReadySteadyBang from "./ReadySteadyBang";
 import { showClientMessage } from "../services/client";
 import { getAvgTime } from "../services/calcs";
+import StyledButton from "./StyledButton";
 
 interface ISinglePlayerProps {
+    [x:string]: any;
 }
 
 function SinglePlayer (props: ISinglePlayerProps) {
@@ -19,7 +21,7 @@ function SinglePlayer (props: ISinglePlayerProps) {
     )
 }
 
-function SinglePlayerGame() {
+function SinglePlayerGame(props: ISinglePlayerProps) {
     const theme = useTheme();
     const [isClickScoreable, setIsClickScoreable] = useState<boolean>(false);
     const [timer, setTimer] = useState<number>(0);
@@ -27,6 +29,7 @@ function SinglePlayerGame() {
     const [illegalMove, setIllegalMove] = useState<boolean>(false);
     const [reactionTimes, setReactionTimes] = useState<Array<number>>([]);
     const [gameOver, setGameOver] = useState<boolean>(false);
+    const attemptsLimit = 5;
 
     const handleClick = () => {
         if(!gameOver) {
@@ -51,7 +54,7 @@ function SinglePlayerGame() {
         if(reactionTime !== 0) {
             setReactionTimes((reactionTimes) => [...reactionTimes, reactionTime]);
         }
-        if(reactionTimes.length === 2) {
+        if(reactionTimes.length === attemptsLimit) {
             setGameOver(true);
         }
     }, [reactionTime]);
@@ -64,9 +67,16 @@ function SinglePlayerGame() {
         </Box>}
         {gameOver && <Box width={1} textAlign="center">
             <Typography variant="subtitle1">Your average reaction time was {getAvgTime(reactionTimes)} ms</Typography>
-            <Box pt={1}>
+            <Box pt={1} pb={3}>
                 <Typography variant="h6">{getAvgTime(reactionTimes) > 300 ? "You can do better!" : "Well Done!"}</Typography>
             </Box>
+            <StyledButton variant="contained"
+            disableRipple 
+            color="secondary"
+            onClick={() => props.history.go(0)}
+            >
+                <Typography variant="h6">Try Again</Typography>
+            </StyledButton>
         </Box>}
     </Box>
     )

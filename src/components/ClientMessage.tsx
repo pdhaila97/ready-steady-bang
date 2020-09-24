@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Box, Button, MobileStepper, Typography, useTheme } from "@material-ui/core";
+import { Box, Button, Link, MobileStepper, Typography, useTheme } from "@material-ui/core";
 import SwipeableViews from 'react-swipeable-views';
 import clientMessages from "../utils/clientMessages";
 import styled from 'styled-components';
@@ -16,6 +16,11 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 
 const StyledMobileStepper = styled(MobileStepper)`
 width:100%;
+`;
+
+const StyledLink = styled(Link)`
+text-decoration: none;
+color: black;
 `;
 
 function ClientMessage(props: any) {
@@ -58,7 +63,7 @@ function ClientMessage(props: any) {
                 {activeStep !== maxSteps - 1 && <Box pt={4}>
                     {step.icon}
                 </Box>}
-                {activeStep === maxSteps - 1 && <Box pt={4} onClick={handleBegin}><Typography variant="h6">Start Playing</Typography></Box>}
+                {activeStep === maxSteps - 1 && <Box pt={4} onClick={handleBegin}><StyledLink><Typography variant="h6">{"< Start Playing >"}</Typography></StyledLink></Box>}
               </Box>
               ))}
           </StyledSwipeableViews>
